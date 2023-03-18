@@ -26,10 +26,10 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     private List<Direccion> direcciones;
 
-   // @OneToMany(mappedBy = "cliente")
-   //private List<Tarjeta> tarjetas;
-   // @OneToMany(mappedBy = "cliente")
-    //private List<Cuenta> cuentas;
+    @OneToMany(mappedBy = "cliente")
+   private List<Tarjeta> tarjetas;
+    @OneToMany(mappedBy = "cliente")
+    private List<Cuenta> cuentas;
 
 
 }

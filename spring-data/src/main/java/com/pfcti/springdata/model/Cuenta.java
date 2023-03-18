@@ -20,4 +20,7 @@ public class Cuenta {
     @ManyToOne
     @JoinColumn(name="cliente_id",referencedColumnName = "id")
     private Cliente cliente;
+
+    private boolean isactive;
+
 }
