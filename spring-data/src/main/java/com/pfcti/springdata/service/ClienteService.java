@@ -59,6 +59,9 @@ public class ClienteService {
         cliente.setNombre(clienteDto.getNombre());
         cliente.setCedula(clienteDto.getCedula());
         cliente.setTelefono(clienteDto.getTelefono());
+
+
+
         clienteRepository.save(cliente);
         return clienteDto;
     };
@@ -78,6 +81,8 @@ public class ClienteService {
 
     public List<ClienteDto> obtenerClientesPorCodigoISOPaisYCuentasActivas(String codigoISOPais) {
         List<ClienteDto> resultadoClientesDto = new ArrayList<>();
+
+
         List<Cliente> clientes = clienteRepository.findClientesByPaisNacimientoAndCuentas_EstadoIsTrue(codigoISOPais);
         clientes.forEach(cliente -> {
             ClienteDto clienteDto = new ClienteDto();
@@ -86,6 +91,9 @@ public class ClienteService {
             clienteDto.setNombre(cliente.getNombre());
             clienteDto.setCedula(cliente.getCedula());
             clienteDto.setPaisNacimiento(cliente.getPaisNacimiento());
+
+
+
             resultadoClientesDto.add(clienteDto);
             System.out.println(clienteDto);
         });
@@ -118,11 +126,15 @@ public class ClienteService {
     public List<ClienteDto> buscarClientesPorApellidoNativo(String apellidos){
         List<ClienteDto> clienteDtos = new ArrayList<>();
         List<Tuple> tuples = clienteRepository.buscarPorApellidosNativo(apellidos);
+
         tuples.forEach(tuple -> {
+
             ClienteDto clienteDto = new ClienteDto();
             clienteDto.setApellidos((String) tuple.get("apellidos"));
             clienteDto.setNombre((String) tuple.get("nombre"));
             clienteDto.setCedula((String) tuple.get("cedula"));
+
+
             clienteDtos.add(clienteDto);
             System.out.println(tuple.get("apellidos"));
         });

@@ -24,4 +24,19 @@ public class TarjetaService {
     };
 
 
+    public TarjetaDto obtenerTarjeta (int idTarjeta){
+        Tarjeta tarjeta = tarjetaRepository.findById(idTarjeta).
+                orElseThrow(() -> {throw new RuntimeException("Tarjeta No Existe");});
+        TarjetaDto tarjetaDto= new TarjetaDto();
+
+        tarjetaDto.setId(tarjeta.getId());
+        tarjetaDto.setEstado(tarjeta.getEstado());
+        tarjetaDto.setTipo(tarjeta.getTipo());
+        tarjetaDto.setNumero(tarjeta.getNumero());
+
+
+        return tarjetaDto;
+    }
+
+
 }

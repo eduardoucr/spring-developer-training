@@ -3,6 +3,7 @@ package com.pfcti.springdata.criteria;
 import com.pfcti.springdata.dto.ClienteDto;
 import com.pfcti.springdata.dto.CuentaDto;
 import com.pfcti.springdata.model.Cliente;
+import com.pfcti.springdata.model.Cuenta;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -29,17 +30,34 @@ public class CuentaSpecification {
         }
     }
 
-    private Specification<Cliente> numeroCriteria (CuentaDto cuentaDto){
+    private Specification<Cuenta> numeroCriteria (CuentaDto cuentaDto){
         return like ("numero",  cuentaDto.getNumero());
     }
 
-    private Specification<Cliente> tipoCriteria (CuentaDto cuentaDto){
+    private Specification<Cuenta> tipoCriteria (CuentaDto cuentaDto){
         return like ("tipo",  cuentaDto.getTipo());
     }
 
-    private Specification<Cliente> estadoCriteria (CuentaDto cuentaDto){
-        return like ("estado",  cuentaDto.getEstado().toString());
+    private Specification<Cuenta> estadoCriteria (CuentaDto cuentaDto){
+        return isTrue ("estado",  cuentaDto.getEstado());
+    }
+    public <T> Specification<T> isTrue(String fieldName, Boolean fieldValue) {
+        return fieldValue == null ? null :
+                (root, query, criteriaBuilder)
+                        -> criteriaBuilder.isTrue(root.get(fieldName));
     }
 
+
+
+
+    public Specification<Cuenta> buildFilter(CuentaDto cuentaDto){
+        System.out.println("Terms of Criteria " + cuentaDto);
+        return Specification
+                .where(numeroCriteria(cuentaDto))
+                .and(estadoCriteria(cuentaDto))
+                .and(tipoCriteria(cuentaDto))
+            ;
+
+    }
 
 }
