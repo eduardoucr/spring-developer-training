@@ -6,6 +6,6 @@ public class CuentaDto {
 
     private String numero;
     private String tipo;
-    private boolean isactive;
+    private boolean estado;
 
 }

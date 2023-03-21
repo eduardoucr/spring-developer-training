@@ -14,5 +14,7 @@ public class ClienteDto {
     private String telefono;
     private List<DireccionDto> direccionesDto;
 
+    private String paisNacimiento;
+
 
 }

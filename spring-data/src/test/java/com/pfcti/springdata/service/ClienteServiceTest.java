@@ -83,4 +83,24 @@ class ClienteServiceTest {
         }
     }
 
+    @Test
+    void obtenerClientesPorCodigoISOPaisYCuentasActivas() {
+        List<ClienteDto> clientesDto = clienteService.obtenerClientesPorCodigoISOPaisYCuentasActivas("CR");
+        clientesDto.forEach(clienteDto -> {System.out.println("Cuentas Activas" + clienteDto);});
+        assertEquals(1, clientesDto.size());}
+
+    @Test
+    void buscarClientesPorApellido() {
+        List<Cliente> cliente =  clienteService.buscarClientesPorApellido("PEREZ");
+        assertFalse(cliente.isEmpty());
+        assertEquals("PEREZ", cliente.get(0).getApellidos());
+    }
+
+    @Test
+    void obtenerClientesExtrajerosYTarjetasInactivas() {
+
+        List<ClienteDto> clientesDto = clienteService.obtenerClientesExtrajerosYTarjetasInactivas("CR");
+        clientesDto.forEach(clienteDto -> {System.out.println("Tarjetas Inactivas" + clienteDto);});
+        assertEquals(1, clientesDto.size());}
+
 }
