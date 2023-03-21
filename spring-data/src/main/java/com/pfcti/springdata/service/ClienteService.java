@@ -1,11 +1,9 @@
 package com.pfcti.springdata.service;
 
 import com.pfcti.springdata.criteria.ClienteSpecification;
-import com.pfcti.springdata.dto.ClienteDto;
+import com.pfcti.springdata.dto.*;
 import com.pfcti.springdata.model.Cliente;
-import com.pfcti.springdata.repository.ClienteRepository;
-import com.pfcti.springdata.repository.CuentaRepository;
-import com.pfcti.springdata.repository.DireccionRepository;
+import com.pfcti.springdata.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -25,6 +23,8 @@ public class ClienteService {
     DireccionRepository direccionRepository;
 
     CuentaRepository cuentaRepository;
+    TarjetaRepository tarjetaRepository;
+    InversionRepository inversionRepository;
 
     ClienteSpecification clienteSpecification;
 
@@ -151,7 +151,22 @@ public class ClienteService {
         return clienteDto;
     }
 
-  //  public ProductsDto ob
+
+    public ProductoDto obtenerTodosLosProductosDeUnCliente (int id){
+        ProductoDto productoDto = new ProductoDto();
+
+        List<CuentaDto> cuentaDtos = new ArrayList<>();
+        List<TarjetaDto> tarjetaDto = new ArrayList<>();
+        List<InversionDto> inversionDto = new ArrayList<>();
+
+
+       cuentaRepository.findByCliente_Id(id);
+       tarjetaRepository.findByCliente_Id(id);
+       inversionRepository.findByCliente_Id(id);
+
+
+        return productoDto;
+    }
 
     public void eliminarCliente(int clienteId){
 

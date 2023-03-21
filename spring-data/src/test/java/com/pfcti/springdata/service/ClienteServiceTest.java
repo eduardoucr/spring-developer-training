@@ -110,4 +110,8 @@ class ClienteServiceTest {
         List<ClienteDto> resultadoCriteriosConDatosDTO = clienteService.buscarClientesDinamicamentePorCriterio(clienteDto);
         assertEquals(1,resultadoCriteriosConDatosDTO.size());
     }
+
+    @Test
+    void obtenerTodosLosProductosDeUnCliente() {
+    }
 }
