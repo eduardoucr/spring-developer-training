@@ -1,5 +1,6 @@
 package com.pfcti.springdata.service;
 
+import com.pfcti.springdata.criteria.ClienteSpecification;
 import com.pfcti.springdata.dto.ClienteDto;
 import com.pfcti.springdata.model.Cliente;
 import com.pfcti.springdata.repository.ClienteRepository;
@@ -8,10 +9,12 @@ import com.pfcti.springdata.repository.DireccionRepository;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +26,13 @@ public class ClienteService {
 
     CuentaRepository cuentaRepository;
 
+    ClienteSpecification clienteSpecification;
+
+
 
     public void insertarCliente (ClienteDto clienteDto){
         Cliente cliente = new Cliente();
-        cliente.setApellidos(clienteDto.getApellido());
+        cliente.setApellidos(clienteDto.getApellidos());
         cliente.setNombre(clienteDto.getNombre());
         cliente.setCedula(clienteDto.getCedula());
         cliente.setTelefono(clienteDto.getTelefono());
@@ -39,7 +45,7 @@ public class ClienteService {
                 orElseThrow(() -> {throw new RuntimeException("Cliente No Existe");});
         ClienteDto clienteDto= new ClienteDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setApellido(cliente.getApellidos());
+        clienteDto.setApellidos(cliente.getApellidos());
         clienteDto.setNombre(cliente.getNombre());
         clienteDto.setCedula(cliente.getCedula());
         return clienteDto;
@@ -49,7 +55,7 @@ public class ClienteService {
         Cliente cliente = clienteRepository.findById(clienteDto.getId()).
                 orElseThrow(() -> {throw new RuntimeException("Cliente No Existe");});
         cliente.setId(clienteDto.getId());
-        cliente.setApellidos(clienteDto.getApellido());
+        cliente.setApellidos(clienteDto.getApellidos());
         cliente.setNombre(clienteDto.getNombre());
         cliente.setCedula(clienteDto.getCedula());
         cliente.setTelefono(clienteDto.getTelefono());
@@ -63,7 +69,7 @@ public class ClienteService {
 
         ClienteDto clienteDto= new ClienteDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setApellido(cliente.getApellidos());
+        clienteDto.setApellidos(cliente.getApellidos());
         clienteDto.setNombre(cliente.getNombre());
         clienteDto.setCedula(cliente.getCedula());
         return clienteDto;
@@ -76,7 +82,7 @@ public class ClienteService {
         clientes.forEach(cliente -> {
             ClienteDto clienteDto = new ClienteDto();
             clienteDto.setId(cliente.getId());
-            clienteDto.setApellido(cliente.getApellidos());
+            clienteDto.setApellidos(cliente.getApellidos());
             clienteDto.setNombre(cliente.getNombre());
             clienteDto.setCedula(cliente.getCedula());
             clienteDto.setPaisNacimiento(cliente.getPaisNacimiento());
@@ -92,7 +98,7 @@ public class ClienteService {
         clientes.forEach(cliente -> {
             ClienteDto clienteDto = new ClienteDto();
             clienteDto.setId(cliente.getId());
-            clienteDto.setApellido(cliente.getApellidos());
+            clienteDto.setApellidos(cliente.getApellidos());
             clienteDto.setNombre(cliente.getNombre());
             clienteDto.setCedula(cliente.getCedula());
             clienteDto.setPaisNacimiento(cliente.getPaisNacimiento());
@@ -114,7 +120,7 @@ public class ClienteService {
         List<Tuple> tuples = clienteRepository.buscarPorApellidosNativo(apellidos);
         tuples.forEach(tuple -> {
             ClienteDto clienteDto = new ClienteDto();
-            clienteDto.setApellido((String) tuple.get("apellidos"));
+            clienteDto.setApellidos((String) tuple.get("apellidos"));
             clienteDto.setNombre((String) tuple.get("nombre"));
             clienteDto.setCedula((String) tuple.get("cedula"));
             clienteDtos.add(clienteDto);
@@ -123,7 +129,17 @@ public class ClienteService {
         return clienteDtos;
     }
 
+    public List<ClienteDto> buscarClientesDinamicamentePorCriterio(ClienteDto clienteDtoFilter){
+        return clienteRepository.findAll(clienteSpecification.buildFilter(clienteDtoFilter))
+                .stream().map(this::fromClienteToDto).collect(Collectors.toList());
+    }
+    private ClienteDto fromClienteToDto(Cliente cliente){
+        ClienteDto clienteDto = new ClienteDto();
+        BeanUtils.copyProperties(cliente, clienteDto);
+        return clienteDto;
+    }
 
+  //  public ProductsDto ob
 
     public void eliminarCliente(int clienteId){
 

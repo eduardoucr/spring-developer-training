@@ -28,7 +28,7 @@ class ClienteServiceTest {
         List<Cliente> clienteList= entityManager.createQuery( "SELECT c  FROM Cliente c" ).getResultList();
         System.out.println("listar antes de insertar: " + clienteList);
         ClienteDto clienteDto = new ClienteDto();
-        clienteDto.setApellido("Hidalgo");
+        clienteDto.setApellidos("Hidalgo");
         clienteDto.setNombre("Eduardo");
         clienteDto.setCedula("1890000000");
         clienteDto.setTelefono("0999714563");
@@ -58,14 +58,14 @@ class ClienteServiceTest {
         clienteDtoBase.setNombre(clienteDtoBase.getNombre() + "TEST");
         clienteDtoBase.setCedula(clienteDtoBase.getCedula() + "TEST");
         clienteDtoBase.setTelefono(clienteDtoBase.getTelefono() + "TEST");
-        clienteDtoBase.setApellido(clienteDtoBase.getApellido() + "TEST");
+        clienteDtoBase.setApellidos(clienteDtoBase.getApellidos() + "TEST");
         clienteService.actualizarCliente(clienteDtoBase);
 
         ClienteDto clienteDtoBaseUpdated = clienteService.obtenerCliente(1);
 
         System.out.println(clienteDtoBaseUpdated);
         assertEquals("ROBERTOTEST", clienteDtoBaseUpdated.getNombre());
-        assertEquals("PEREZTEST", clienteDtoBaseUpdated.getApellido());
+        assertEquals("PEREZTEST", clienteDtoBaseUpdated.getApellidos());
     }
 
     @Test
@@ -103,4 +103,11 @@ class ClienteServiceTest {
         clientesDto.forEach(clienteDto -> {System.out.println("Tarjetas Inactivas" + clienteDto);});
         assertEquals(1, clientesDto.size());}
 
+    @Test
+    void buscarClientesDinamicamentePorCriterio() {
+        ClienteDto clienteDto= new ClienteDto();
+        clienteDto.setNombre("ROBERTO");
+        List<ClienteDto> resultadoCriteriosConDatosDTO = clienteService.buscarClientesDinamicamentePorCriterio(clienteDto);
+        assertEquals(1,resultadoCriteriosConDatosDTO.size());
+    }
 }

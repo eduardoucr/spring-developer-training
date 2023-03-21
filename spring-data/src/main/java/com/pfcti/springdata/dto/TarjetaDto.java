@@ -1,5 +1,8 @@
 package com.pfcti.springdata.dto;
 
+import lombok.Data;
+
+@Data
 public class TarjetaDto {
     private int id;
 
