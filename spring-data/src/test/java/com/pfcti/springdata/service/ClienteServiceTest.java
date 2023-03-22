@@ -1,6 +1,7 @@
 package com.pfcti.springdata.service;
 import com.pfcti.springdata.dto.ClienteDto;
 
+import com.pfcti.springdata.dto.ProductoDto;
 import com.pfcti.springdata.model.Cliente;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -111,7 +112,12 @@ class ClienteServiceTest {
         assertEquals(1,resultadoCriteriosConDatosDTO.size());
     }
 
+
+
     @Test
     void obtenerTodosLosProductosDeUnCliente() {
+        ProductoDto productosDto = clienteService.obtenerTodosLosProductosDeUnCliente(1);
+
+        assertEquals(1, productosDto.getCuentaDtos().size());
     }
 }

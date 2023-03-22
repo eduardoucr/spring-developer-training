@@ -19,5 +19,5 @@ public class Inversion {
     @ManyToOne
     @JoinColumn(name="cliente_id",referencedColumnName = "id")
     private Cliente cliente;
-
+    private Boolean estado;
 }

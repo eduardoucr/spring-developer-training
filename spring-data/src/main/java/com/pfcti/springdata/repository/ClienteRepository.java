@@ -17,6 +17,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>, JpaS
     List<Cliente> findClientesByPaisNacimientoAndTarjetas_EstadoIsFalse(String paisNacimiento);
 
 
+    List<Cliente>  findByCedula(String cedula);
+
+    List<Cliente> findByNombreContainingIgnoreCaseOrApellidosContainingIgnoreCase(String texto1, String text2);
 
     @Query(value = "select c from Cliente c where c.apellidos= :apellidos")
     List<Cliente> buscarPorApellidos(String apellidos);

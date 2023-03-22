@@ -1,10 +1,14 @@
 package com.pfcti.springdata.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClienteDto {
 
     private int id;
@@ -12,9 +16,10 @@ public class ClienteDto {
     private String apellidos;
     private String cedula;
     private String telefono;
+    private String paisNacimiento;
     private List<DireccionDto> direccionesDto;
 
-    private String paisNacimiento;
+
 
 
 }

@@ -3,6 +3,9 @@ package com.pfcti.springdata.service;
 import com.pfcti.springdata.criteria.ClienteSpecification;
 import com.pfcti.springdata.dto.*;
 import com.pfcti.springdata.model.Cliente;
+import com.pfcti.springdata.model.Cuenta;
+import com.pfcti.springdata.model.Inversion;
+import com.pfcti.springdata.model.Tarjeta;
 import com.pfcti.springdata.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
@@ -151,21 +154,51 @@ public class ClienteService {
         return clienteDto;
     }
 
+    private CuentaDto fromCuentaToDto(Cuenta cuenta) {
+        CuentaDto cuentaDto = new CuentaDto();
+        BeanUtils.copyProperties(cuenta, cuentaDto);
+        return cuentaDto;
+    }
 
-    public ProductoDto obtenerTodosLosProductosDeUnCliente (int id){
-        ProductoDto productoDto = new ProductoDto();
+    private TarjetaDto fromTarjetaToDto(Tarjeta tarjeta) {
+        TarjetaDto tarjetaDto = new TarjetaDto();
+        BeanUtils.copyProperties(tarjeta, tarjetaDto);
+        return tarjetaDto;
+    }
 
+    private InversionDto fromInversionToDto(Inversion inversion) {
+        InversionDto inversionDto = new InversionDto();
+        BeanUtils.copyProperties(inversion, inversionDto);
+        return inversionDto;
+    }
+
+
+    public ProductoDto obtenerTodosLosProductosDeUnCliente(int id) {
+        ProductoDto productosDto = new ProductoDto();
         List<CuentaDto> cuentaDtos = new ArrayList<>();
-        List<TarjetaDto> tarjetaDto = new ArrayList<>();
-        List<InversionDto> inversionDto = new ArrayList<>();
+        cuentaRepository.findByCliente_IdAndEstadoIsTrue(id).forEach(cuenta -> {
+            CuentaDto cuentaDto;
+            cuentaDto = fromCuentaToDto(cuenta);
+            cuentaDtos.add(cuentaDto);
+        });
+        productosDto.setCuentaDtos(cuentaDtos);
 
+        List<TarjetaDto> tarjetaDtos = new ArrayList<>();
+        tarjetaRepository.findByCliente_IdAndEstadoIsTrue(id).forEach(tarjeta -> {
+            TarjetaDto tarjetaDto;
+            tarjetaDto = fromTarjetaToDto(tarjeta);
+            tarjetaDtos.add(tarjetaDto);
+        });
+        productosDto.setTarjetaDtos(tarjetaDtos);
 
-       cuentaRepository.findByCliente_Id(id);
-       tarjetaRepository.findByCliente_Id(id);
-       inversionRepository.findByCliente_Id(id);
-
-
-        return productoDto;
+        List<InversionDto> inversionDtos = new ArrayList<>();
+        inversionRepository.findByCliente_IdAndEstadoIsTrue(id).forEach(inversion -> {
+            InversionDto inversionDto;
+            inversionDto = fromInversionToDto(inversion);
+            inversionDtos.add(inversionDto);
+        });
+        productosDto.setInversionDtos(inversionDtos);
+        return productosDto;
     }
 
     public void eliminarCliente(int clienteId){

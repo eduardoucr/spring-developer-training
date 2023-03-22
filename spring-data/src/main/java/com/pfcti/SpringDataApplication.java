@@ -1,4 +1,4 @@
-package com.pfcti.springdata;
+package com.pfcti;
 
 import org.h2.tools.Server;
 import org.springframework.boot.SpringApplication;
