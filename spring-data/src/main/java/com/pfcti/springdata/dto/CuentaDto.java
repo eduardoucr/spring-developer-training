@@ -16,7 +16,7 @@ public class CuentaDto {
     private String numero;
     private String tipo;
 
-    private Integer IdCliente;
+    private int idCliente;
 
 
 

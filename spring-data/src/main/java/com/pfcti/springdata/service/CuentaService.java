@@ -1,7 +1,9 @@
 package com.pfcti.springdata.service;
 
 import com.pfcti.springdata.criteria.CuentaSpecification;
+import com.pfcti.springdata.dto.ClienteDto;
 import com.pfcti.springdata.dto.CuentaDto;
+import com.pfcti.springdata.model.Cliente;
 import com.pfcti.springdata.model.Cuenta;
 import com.pfcti.springdata.repository.CuentaRepository;
 import lombok.AllArgsConstructor;
@@ -57,10 +59,31 @@ public class CuentaService {
     }
 
 
+
+
     private Cuenta fromDtoToCuenta(CuentaDto cuentaDto) {
         Cuenta cuenta = new Cuenta();
         BeanUtils.copyProperties(cuentaDto, cuenta);
         return cuenta;
+    }
+
+
+
+    public void desactivarCuentasCliente(int idCliente) {
+
+        List<Cuenta> cuentas =   cuentaRepository.findByCliente_IdAndEstadoIsTrue(idCliente);
+           cuentas.forEach(cuenta -> {
+              cuenta.setEstado(false);
+               cuentaRepository.save(cuenta);
+                   }
+           );
+    }
+
+    public CuentaDto desactivarCuentaPorId(CuentaDto cuentaDto){
+        Cuenta cuenta = cuentaRepository.findById(cuentaDto.getId()).orElseThrow(() -> {throw new RuntimeException("cuenta de Cliente No Existe");});
+        cuenta.setEstado(false);
+        cuentaRepository.save(cuenta);
+        return fromCuentaToDto(cuenta);
     }
 
 }
