@@ -210,5 +210,18 @@ public class ClienteService {
         clienteRepository.deleteById(clienteId);
     };
 
+    public List<ClienteDto> listarTodosLosClientes(){
+        List<ClienteDto> clienteDtoList = new ArrayList<>();
+        clienteRepository
+                .findAll()
+                .stream()
+                .map(cliente -> {
+
+                    clienteDtoList.add(fromClienteToDto(cliente));
+                    return cliente;
+                }).collect(Collectors.toList());
+        return clienteDtoList;
+    }
+
 }
 
