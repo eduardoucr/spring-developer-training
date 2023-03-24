@@ -2,6 +2,7 @@ package com.pfcti.rest.api;
 
 import com.pfcti.springdata.dto.ClienteDto;
 import com.pfcti.springdata.service.ClienteService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -45,7 +46,7 @@ public class ClienteApi {
     }
 
     @PostMapping
-    public void guardarCliente(@RequestBody ClienteDto clienteDto) {
+    public void guardarCliente(@Valid @RequestBody ClienteDto clienteDto) {
         log.info("Cliente a crear {}", clienteDto);
         clienteService.insertarCliente(clienteDto);
     }
@@ -59,7 +60,7 @@ public class ClienteApi {
     }
 
     @PutMapping
-    public void actualizarCliente(@RequestBody ClienteDto clienteDto){
+    public void actualizarCliente(@Valid @RequestBody ClienteDto clienteDto){
         log.info("Actualización de Cliente ", clienteDto);
         clienteService.actualizarCliente(clienteDto) ;
     }
