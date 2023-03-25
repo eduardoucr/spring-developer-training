@@ -50,6 +50,7 @@ public class ClienteService {
         clienteDto.setNombre(cliente.getNombre());
         clienteDto.setCedula(cliente.getCedula());
         clienteDto.setPaisNacimiento(cliente.getPaisNacimiento());
+
         clienteDto.setTelefono(cliente.getTelefono());
 
 
