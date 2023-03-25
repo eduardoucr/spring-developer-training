@@ -1,5 +1,6 @@
 package com.pfcti.springdata.dto;
 
+import com.pfcti.springdata.model.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

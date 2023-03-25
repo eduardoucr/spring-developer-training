@@ -34,16 +34,14 @@ public class CuentaApi {
         cuentaService.creacionDeCuenta(cuentaDto);
     }
 
-    @PutMapping("/{id}")
-    public void actualizarDesactivarCuenta(@PathVariable int id){
-        log.info("Desactivar cuenta del Cliente ", id);
-        cuentaService.desactivarCuentasCliente(id);
+    @PutMapping(value = "/parameter")
+    public void actualizarDesactivarCuentasActivasPorIdCliente(@RequestParam  int idCliente){
+        log.info("Desactivar cuenta del Cliente ", idCliente);
+        cuentaService.desactivarCuentasActivasCliente(idCliente);
     }
 
-
-    //REvisar
     @PutMapping
-    public void actualizarDesactivarCuentaPorID(@Valid @RequestBody CuentaDto cuentaDto){
+    public void actualizarDesactivarCuentaPorID( @RequestBody CuentaDto cuentaDto){
         log.info("Actualización de Cliente ", cuentaDto);
         cuentaService.desactivarCuentaPorId(cuentaDto) ;
     }

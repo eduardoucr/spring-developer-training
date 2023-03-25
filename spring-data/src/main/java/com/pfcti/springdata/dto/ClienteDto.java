@@ -18,8 +18,8 @@ public class ClienteDto {
     private String telefono;
     private String paisNacimiento;
     private List<DireccionDto> direccionesDto;
-
-
-
+   // private List<CuentaDto> cuentasDto;
+   //  private List<ProductoDto> productosDto;
+    //  private List<TarjetaDto> tarjetasDto;
 
 }

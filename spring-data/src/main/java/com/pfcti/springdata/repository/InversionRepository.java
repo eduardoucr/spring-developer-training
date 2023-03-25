@@ -11,7 +11,7 @@ import java.util.List;
 public interface InversionRepository  extends JpaRepository<Inversion, Integer>, JpaSpecificationExecutor<Inversion> {
 
     void findByCliente_Id(int clienteId);
-
+    void deleteAllByCliente_Id(int clienteId);
     List<Inversion> findByCliente_IdAndEstadoIsTrue(int clienteId);
 
 }

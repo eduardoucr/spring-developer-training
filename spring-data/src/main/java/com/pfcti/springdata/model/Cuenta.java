@@ -21,7 +21,7 @@ public class Cuenta {
     private String numero;
     @NotBlank
     private String tipo;
-    @AssertTrue
+   // @AssertTrue
     private Boolean estado; // activo/desactivo
     @ManyToOne
     @JoinColumn(name = "cliente_id", referencedColumnName = "id")

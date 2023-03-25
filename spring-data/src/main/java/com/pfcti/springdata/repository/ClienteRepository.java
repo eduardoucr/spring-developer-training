@@ -29,7 +29,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer>, JpaS
             nativeQuery = true)
     List<Tuple> buscarPorApellidosNativo(String apellidos);
 
-
+    Cliente findClienteById(int id);
 
 
 }

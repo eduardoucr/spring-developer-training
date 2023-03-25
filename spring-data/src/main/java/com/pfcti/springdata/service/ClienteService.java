@@ -2,10 +2,7 @@ package com.pfcti.springdata.service;
 
 import com.pfcti.springdata.criteria.ClienteSpecification;
 import com.pfcti.springdata.dto.*;
-import com.pfcti.springdata.model.Cliente;
-import com.pfcti.springdata.model.Cuenta;
-import com.pfcti.springdata.model.Inversion;
-import com.pfcti.springdata.model.Tarjeta;
+import com.pfcti.springdata.model.*;
 import com.pfcti.springdata.repository.*;
 import jakarta.persistence.Tuple;
 import jakarta.transaction.Transactional;
@@ -52,6 +49,18 @@ public class ClienteService {
         clienteDto.setApellidos(cliente.getApellidos());
         clienteDto.setNombre(cliente.getNombre());
         clienteDto.setCedula(cliente.getCedula());
+        clienteDto.setPaisNacimiento(cliente.getPaisNacimiento());
+        clienteDto.setTelefono(cliente.getTelefono());
+
+
+//        List<DireccionDto> direccionDtos = new ArrayList<>();
+//        direccionRepository.findByCliente_Id(cliente.getId()).forEach(direccion -> {
+//            DireccionDto direccionDto;
+//            direccionDto = fromDireccionToDto(direccion);
+//            direccionDtos.add(direccionDto);
+//        });
+//        clienteDto.setDireccionesDto(direccionDtos);
+
         return clienteDto;
     }
 
@@ -165,6 +174,13 @@ public class ClienteService {
         return tarjetaDto;
     }
 
+    private DireccionDto fromDireccionToDto(Direccion direccion) {
+        DireccionDto direccionDto = new DireccionDto();
+        BeanUtils.copyProperties(direccion, direccionDto);
+        return direccionDto;
+    }
+
+
     private InversionDto fromInversionToDto(Inversion inversion) {
         InversionDto inversionDto = new InversionDto();
         BeanUtils.copyProperties(inversion, inversionDto);
@@ -205,6 +221,8 @@ public class ClienteService {
         // primero los hijos
         direccionRepository.deleteAllByCliente_Id(clienteId);
         cuentaRepository.deleteAllByCliente_Id(clienteId);
+        tarjetaRepository.deleteAllByCliente_Id(clienteId);
+        inversionRepository.deleteAllByCliente_Id(clienteId);
         //luego la tabla padre
         clienteRepository.deleteById(clienteId);
     }
