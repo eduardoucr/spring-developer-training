@@ -27,6 +27,7 @@ public class CuentaApi {
         return cuentaService.buscarCuentasPorCliente(id);
     }
 
+    //Revisar
     @PostMapping
     public void guardarCuenta( @RequestBody CuentaDto cuentaDto) {
         log.info("Cuenta a crear {}", cuentaDto);
@@ -39,6 +40,8 @@ public class CuentaApi {
         cuentaService.desactivarCuentasCliente(id);
     }
 
+
+    //REvisar
     @PutMapping
     public void actualizarDesactivarCuentaPorID(@Valid @RequestBody CuentaDto cuentaDto){
         log.info("Actualización de Cliente ", cuentaDto);
