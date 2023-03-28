@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -20,7 +21,7 @@ class AdministradorClientesConAutowiredTest {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
+  //  @Autowired
     private AdministradorClientes administradorClientes;
 
 
