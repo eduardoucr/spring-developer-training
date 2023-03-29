@@ -47,7 +47,7 @@ public class EmployeeApi {
 
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteById (@PathVariable("id") Integer id) {
+    public void deleteById(@PathVariable("id") Integer id) {
         employeeService.deleteById(id).subscribe();
     }
 }

@@ -7,9 +7,14 @@ import com.pfcti.springdata.model.Cliente;
 import com.pfcti.springdata.model.Cuenta;
 import com.pfcti.springdata.repository.ClienteRepository;
 import com.pfcti.springdata.repository.CuentaRepository;
+import com.pfcti.springjms.dto.NotificacionDto;
+import com.pfcti.springjms.pubsub.publishers.NotificactionPubSubSender;
+import com.pfcti.springjms.senders.NotificacionSender;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +32,11 @@ public class CuentaService {
     CuentaSpecification cuentaSpefication;
 
     ClienteRepository clienteRepository;
+
+    ClienteService clienteService;
+
+    private NotificacionSender notificacionSender;
+    private NotificactionPubSubSender notificactionPubSubSender;
 
 
     public List<CuentaDto> buscarCuentasDinamicamentePorCriterio(CuentaDto cuentaDtoFilter) {
@@ -47,9 +57,9 @@ public class CuentaService {
         Cuenta cuenta = new Cuenta();
         BeanUtils.copyProperties(cuentaDto, cuenta);
 
-          Cliente cliente = new Cliente();
-          cliente.setId(cuentaDto.getIdCliente());
-          cuenta.setCliente(cliente);
+        Cliente cliente = new Cliente();
+        cliente.setId(cuentaDto.getIdCliente());
+        cuenta.setCliente(cliente);
 
         return cuenta;
     }
@@ -73,6 +83,18 @@ public class CuentaService {
 
         cuentaRepository.save(cuenta);
         log.info("Cuenta: {} ", cuenta);
+        //SMS en una cola para que luego envie un mensaje
+        this.enviarNotificacion(cuentaDto);
+    }
+
+    private void enviarNotificacion(CuentaDto cuentaDto) {
+        NotificacionDto notificacionDto = new NotificacionDto();
+        ClienteDto clienteDto = clienteService.obtenerCliente(cuentaDto.getIdCliente());
+        notificacionDto.setPhoneNumber(clienteDto.getTelefono());
+        notificacionDto.setMailBody("Estimado " + clienteDto.getNombre() + " su cuenta fue creada");
+        notificacionSender.sendSms(notificacionDto);
+        Message<CuentaDto> message = MessageBuilder.withPayload(cuentaDto).build();
+        notificactionPubSubSender.sendNotification(message);
     }
 
 
