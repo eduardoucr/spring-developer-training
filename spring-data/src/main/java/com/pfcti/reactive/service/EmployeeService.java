@@ -12,8 +12,13 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
+
     public void create(Employee employee){
         employeeRepository.save(employee).subscribe();
+    }
+
+    public Flux<Employee> findAll(){
+        return employeeRepository.findAll();
     }
 
     public Mono<Employee> findById (Integer id){
@@ -24,9 +29,7 @@ public class EmployeeService {
         return  employeeRepository.findByName(name);
     }
 
-    public Flux<Employee> findAll(){
-        return employeeRepository.findAll();
-    }
+
 
     public Mono<Employee> update (Employee employee){
         return employeeRepository.save(employee);

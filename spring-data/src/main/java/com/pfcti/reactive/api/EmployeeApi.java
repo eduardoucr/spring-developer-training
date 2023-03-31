@@ -23,16 +23,19 @@ public class EmployeeApi {
         employeeService.create(employee);
     }
 
+
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Employee> findAll() {
+        return employeeService.findAll();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Mono<Employee>> findById(@PathVariable("id") Integer id) {
         Mono<Employee> employeeMono = employeeService.findById(id);
         return new ResponseEntity<Mono<Employee>>(employeeMono, HttpStatus.OK);
     }
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Employee> findAll() {
-        return employeeService.findAll();
-    }
+
 
     @GetMapping("/name/{name}")
     public Flux<Employee> findByName(@PathVariable("name") String name) {
