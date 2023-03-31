@@ -11,12 +11,12 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class ClienteEndPoint {
-    private String NAMESSPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+    private static final String NAMESSPACE_URI = "http://spring.io/guides/gs-producing-web-service";
 
 
     @Autowired
     private ClienteService clienteService;
-    @PayloadRoot(namespace = String,localPart = "getClienteRequest")
+    @PayloadRoot(namespace = NAMESSPACE_URI,localPart = "getClienteRequest")
     @ResponsePayload
     public GetClienteResponse obtenerCliente(@RequestPayload GetClienteRequest request) {
         GetClienteResponse response= new GetClienteResponse();
